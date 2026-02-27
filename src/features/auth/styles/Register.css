@@ -1,0 +1,107 @@
+/* ─── Register Page ─── */
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #ffecd2 100%);
+  padding: 20px;
+}
+
+.register-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  padding: 36px 36px;
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+}
+
+.register-brand {
+  margin-bottom: 24px;
+}
+
+.register-brand-icon {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.register-brand-title {
+  font-size: 28px;
+  font-weight: 800;
+  font-family: 'Georgia', serif;
+  background: linear-gradient(135deg, #f56040, #e1306c, #c13584);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 6px;
+}
+
+.register-brand-subtitle {
+  color: #8e8e8e;
+  font-size: 14px;
+  margin: 0;
+}
+
+.register-alert {
+  background: #fde8ea;
+  color: #ed4956;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  border: 1px solid #f5c6cb;
+}
+
+.register-form {
+  text-align: left;
+}
+
+.register-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.register-select {
+  appearance: auto;
+  cursor: pointer;
+}
+
+.register-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.register-divider::before,
+.register-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #dbdbdb;
+}
+
+.register-divider span {
+  padding: 0 16px;
+  color: #8e8e8e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.register-footer {
+  color: #8e8e8e;
+  font-size: 14px;
+  margin: 0;
+}
+
+.register-link {
+  color: #e1306c;
+  font-weight: 600;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

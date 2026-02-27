@@ -1,0 +1,186 @@
+/* ─── Dashboard ─── */
+.dashboard {
+  max-width: 975px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+/* Welcome Banner */
+.dashboard-banner {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+
+.dashboard-greeting {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.dashboard-greeting span {
+  color: #ffd700;
+}
+
+.dashboard-subtitle {
+  margin: 0;
+  opacity: 0.85;
+  font-size: 15px;
+}
+
+/* Toolbar */
+.dashboard-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-bar {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  padding: 0 14px;
+  transition: all 0.2s;
+}
+
+.search-bar:focus-within {
+  border-color: #e1306c;
+  box-shadow: 0 0 0 2px rgba(225, 48, 108, 0.1);
+}
+
+.search-icon {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 0;
+  font-size: 14px;
+  color: #262626;
+  outline: none;
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: #8e8e8e;
+}
+
+.search-clear {
+  background: none;
+  border: none;
+  color: #8e8e8e;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.search-clear:hover {
+  color: #262626;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tag-select {
+  padding: 10px 14px;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 14px;
+  color: #262626;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+.tag-select:focus {
+  border-color: #e1306c;
+}
+
+/* Meta */
+.dashboard-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.recipe-count {
+  font-size: 14px;
+  color: #8e8e8e;
+  font-weight: 500;
+}
+
+.liked-count {
+  font-size: 14px;
+  color: #e1306c;
+  font-weight: 600;
+}
+
+/* Loading & Error */
+.dashboard-loading,
+.dashboard-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+  color: #8e8e8e;
+}
+
+/* Recipe Grid */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Empty State */
+.dashboard-empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.dashboard-empty h3 {
+  font-size: 20px;
+  color: #262626;
+  margin: 0 0 8px;
+}
+
+.dashboard-empty p {
+  color: #8e8e8e;
+  margin: 0 0 20px;
+}
+
+@media (max-width: 600px) {
+  .dashboard-toolbar {
+    flex-direction: column;
+  }
+  .recipe-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-greeting {
+    font-size: 20px;
+  }
+}
