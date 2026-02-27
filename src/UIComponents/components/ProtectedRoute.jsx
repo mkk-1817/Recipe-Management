@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { selectIsAuthenticated } from '../../auth/authSlice';
+import { selectIsAuthenticated } from '../../features/auth/authSlice';
 
 /**
  * ProtectedRoute wraps around routes that require authentication.

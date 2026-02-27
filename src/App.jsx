@@ -4,9 +4,9 @@ import Register from './features/auth/components/Register';
 import Dashboard from './features/dashboard/components/Dashboard';
 import Profile from './features/profile/components/Profile';
 import RecipeDetails from './features/recipes/components/RecipeDetails';
-import NotFound from './features/common/components/NotFound';
-import Navbar from './features/common/components/Navbar';
-import ProtectedRoute from './features/common/components/ProtectedRoute';
+import NotFound from './UIComponents/components/NotFound';
+import Navbar from './UIComponents/components/Navbar';
+import ProtectedRoute from './UIComponents/components/ProtectedRoute';
 import './App.css';
 
 function App() {

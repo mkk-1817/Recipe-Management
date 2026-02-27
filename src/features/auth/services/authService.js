@@ -1,5 +1,3 @@
-import { Email } from "@mui/icons-material";
-
 const TOKEN_KEY = 'auth_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 

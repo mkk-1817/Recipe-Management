@@ -1,36 +1,27 @@
-import axios from 'axios';
+import { get, post } from '../../../api/axiosInstance';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
 export const fetchRecipes = async (limit = 30, skip = 0) => {
-  const response = await axios.get(`${API_BASE}?limit=${limit}&skip=${skip}`);
-  return response.data;
+  return get(`?limit=${limit}&skip=${skip}`);
 };
+
 export const fetchRecipeById = async (id) => {
-  const response = await axios.get(`${API_BASE}/${id}`);
-  return response.data;
+  return get(`/${id}`);
 };
 
 export const searchRecipes = async (query) => {
-  const response = await axios.get(`${API_BASE}/search?q=${encodeURIComponent(query)}`);
-  return response.data;
+  return get(`/search?q=${encodeURIComponent(query)}`);
 };
 
-
 export const fetchRecipesByTag = async (tag) => {
-  const response = await axios.get(`${API_BASE}/tag/${encodeURIComponent(tag)}`);
-  return response.data;
+  return get(`/tag/${encodeURIComponent(tag)}`);
 };
 
 export const fetchTags = async () => {
-  const response = await axios.get('https://dummyjson.com/recipes/tags');
-  return response.data;
+  return get('/tags');
 };
 
 export const addRecipe = async (recipeData) => {
-  const response = await axios.post(`${API_BASE}/add`, recipeData, {
-    headers: { 'Content-Type': 'application/json' },
-  });
-  return response.data;
+  return post('/add', recipeData);
 };
 
 export const getLikedRecipes = () => {

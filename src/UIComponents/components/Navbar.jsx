@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser, selectUser, selectIsAuthenticated } from '../../auth/authSlice';
+import { logoutUser, selectUser, selectIsAuthenticated } from '../../features/auth/authSlice';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
