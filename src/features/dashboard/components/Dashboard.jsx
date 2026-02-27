@@ -7,11 +7,16 @@ import {
   fetchTags,
   setSearchQuery,
   setSelectedTag,
+  setSelectedLimit,
+  setSkip,
   selectRecipes,
   selectRecipesLoading,
   selectRecipesError,
   selectSearchQuery,
   selectSelectedTag,
+  selectSelectedLimit,
+  selectSkip,
+  selectTotal,
   selectTags,
   selectLikedRecipeIds,
 } from '../../recipes/recipesSlice';
@@ -36,12 +41,15 @@ function Dashboard() {
   const selectedTag = useSelector(selectSelectedTag);
   const tags = useSelector(selectTags);
   const likedIds = useSelector(selectLikedRecipeIds);
+  const selectedLimit = useSelector(selectSelectedLimit);
+  const skip = useSelector(selectSkip);
+  const total = useSelector(selectTotal);
   const [showLikedOnly, setShowLikedOnly] = useState(false);
   const [localSearch, setLocalSearch] = useState(searchQuery);
 
   // Fetch recipes and tags on mount
   useEffect(() => {
-    dispatch(fetchRecipes());
+    dispatch(fetchRecipes({ limit: selectedLimit || 0, skip: 0 }));
     dispatch(fetchTags());
   }, [dispatch]);
 
@@ -53,7 +61,7 @@ function Dashboard() {
         if (localSearch.trim()) {
           dispatch(searchRecipes(localSearch.trim()));
         } else {
-          dispatch(fetchRecipes());
+          dispatch(fetchRecipes({ limit: selectedLimit || 0, skip: 0 }));
         }
       }
     }, 400);
@@ -66,11 +74,31 @@ function Dashboard() {
       if (tag) {
         dispatch(searchRecipes(tag));
       } else {
-        dispatch(fetchRecipes());
+        dispatch(fetchRecipes({ limit: selectedLimit || 0, skip: 0 }));
       }
+    },
+    [dispatch, selectedLimit]
+  );
+
+  const handleLimitChange = useCallback(
+    (value) => {
+      dispatch(setSelectedLimit(value));
+      dispatch(fetchRecipes({ limit: value || 0, skip: 0 }));
     },
     [dispatch]
   );
+
+  const handleNextPage = useCallback(() => {
+    const newSkip = skip + selectedLimit;
+    dispatch(setSkip(newSkip));
+    dispatch(fetchRecipes({ limit: selectedLimit, skip: newSkip }));
+  }, [dispatch, skip, selectedLimit]);
+
+  const handlePrevPage = useCallback(() => {
+    const newSkip = Math.max(0, skip - selectedLimit);
+    dispatch(setSkip(newSkip));
+    dispatch(fetchRecipes({ limit: selectedLimit, skip: newSkip }));
+  }, [dispatch, skip, selectedLimit]);
 
   // Filter recipes by tag and liked
   const filteredRecipes = useMemo(() => {
@@ -90,12 +118,10 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      {/* Welcome Banner */}
       <div className="dashboard-banner">
         <h1 className="dashboard-greeting">
-          Welcome back, <span>{user?.name || user?.username || 'Chef'}</span>! 👨‍🍳
+          Welcome, <span>{user?.name || user?.username || 'Chef'}</span>! 
         </h1>
-        <p className="dashboard-subtitle">What are you cooking today?</p>
       </div>
 
       {/* Search & Filter Bar */}
@@ -117,7 +143,7 @@ function Dashboard() {
                 <InputAdornment position="end">
                   <IconButton
                     size="small"
-                    onClick={() => { setLocalSearch(''); dispatch(setSearchQuery('')); dispatch(fetchRecipes()); }}
+                    onClick={() => { setLocalSearch(''); dispatch(setSearchQuery('')); dispatch(fetchRecipes({ limit: selectedLimit || 0, skip: 0 })); }}
                   >
                     <ClearIcon fontSize="small" />
                   </IconButton>
@@ -127,6 +153,21 @@ function Dashboard() {
           }}
         />
         <div className="filter-bar">
+          <TextField
+          select
+          value={selectedLimit}
+          onChange={(e) => handleLimitChange(e.target.value)}
+          size="small"
+          sx={{ minWidth: 150 }}
+          label="Limit"
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={20}>20</MenuItem>
+          <MenuItem value={50}>50</MenuItem>
+          <MenuItem value={100}>100</MenuItem>
+        </TextField>
           <TextField
             select
             value={selectedTag}
@@ -144,8 +185,10 @@ function Dashboard() {
             variant={showLikedOnly ? 'contained' : 'outlined'}
             size="small"
             onClick={() => setShowLikedOnly(!showLikedOnly)}
+            disabled={likedIds.length === 0}
           >
-            {showLikedOnly ? '❤️ Liked' : '🤍 Show Liked'}
+            
+          <span sx={{ fontSize: '0.875rem', fontWeight: 500,color: '#e1306c' }}>❤️ {likedIds.length} liked</span>
           </Button>
         </div>
       </div>
@@ -155,9 +198,7 @@ function Dashboard() {
         <span className="recipe-count">
           {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? 's' : ''} found
         </span>
-        {likedIds.length > 0 && (
-          <span className="liked-count">❤️ {likedIds.length} liked</span>
-        )}
+        
       </div>
 
       {/* Loading */}
@@ -172,7 +213,7 @@ function Dashboard() {
       {error && (
         <div className="dashboard-error">
           <p>😞 {error}</p>
-          <Button variant="contained" onClick={() => dispatch(fetchRecipes())}>
+          <Button variant="contained" onClick={() => dispatch(fetchRecipes({ limit: selectedLimit || 0, skip }))}>
             Retry
           </Button>
         </div>
@@ -184,6 +225,31 @@ function Dashboard() {
           {filteredRecipes.map((recipe) => (
             <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {!loading && !error && selectedLimit && filteredRecipes.length > 0 && (
+        <div className="pagination-controls">
+          <Button
+            variant="outlined"
+            size="small"
+            disabled={skip === 0}
+            onClick={handlePrevPage}
+          >
+            Previous
+          </Button>
+          <span className="page-info">
+            Page {Math.floor(skip / selectedLimit) + 1} of {Math.ceil(total / selectedLimit)}
+          </span>
+          <Button
+            variant="outlined"
+            size="small"
+            disabled={skip + selectedLimit >= total}
+            onClick={handleNextPage}
+          >
+            Next
+          </Button>
         </div>
       )}
 
@@ -199,8 +265,9 @@ function Dashboard() {
               setLocalSearch('');
               dispatch(setSearchQuery(''));
               dispatch(setSelectedTag(''));
+              dispatch(setSelectedLimit(10));
               setShowLikedOnly(false);
-              dispatch(fetchRecipes());
+              dispatch(fetchRecipes({ limit: 10, skip: 0 }));
             }}
           >
             Clear Filters

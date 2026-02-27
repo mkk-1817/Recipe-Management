@@ -7,7 +7,7 @@
 
 /* Welcome Banner */
 .dashboard-banner {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #fd4e4e, #764ba2);
   color: white;
   border-radius: 16px;
   padding: 28px 32px;
@@ -154,6 +154,22 @@
 .dashboard-empty {
   text-align: center;
   padding: 60px 20px;
+}
+
+/* Pagination */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+  padding: 16px 0;
+}
+
+.page-info {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
 }
 
 .empty-icon {

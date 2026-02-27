@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as recipeService from './services/recipeService';
 
-// ─── Async Thunks ───────────────────────────────────────────────
-
 export const fetchRecipes = createAsyncThunk(
   'recipes/fetchRecipes',
-  async ({ limit = 30, skip = 0 } = {}, { rejectWithValue }) => {
+  async ({ limit, skip = 0 } = {}, { rejectWithValue }) => {
     try {
       const data = await recipeService.fetchRecipes(limit, skip);
       return data;
@@ -63,7 +61,6 @@ export const addNewRecipe = createAsyncThunk(
   }
 );
 
-// ─── Initial State ──────────────────────────────────────────────
 
 const likedFromStorage = recipeService.getLikedRecipes();
 
@@ -75,12 +72,13 @@ const initialState = {
   tags: [],
   searchQuery: '',
   selectedTag: '',
+  selectedLimit: 10,
+  skip: 0,
   loading: false,
   detailLoading: false,
   error: null,
 };
 
-// ─── Slice ──────────────────────────────────────────────────────
 
 const recipesSlice = createSlice({
   name: 'recipes',
@@ -94,14 +92,22 @@ const recipesSlice = createSlice({
       } else {
         state.likedRecipeIds.splice(index, 1);
       }
-      // Persist to localStorage
       recipeService.saveLikedRecipes(state.likedRecipeIds);
     },
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
+      state.skip = 0;
     },
     setSelectedTag: (state, action) => {
       state.selectedTag = action.payload;
+      state.skip = 0;
+    },
+    setSelectedLimit: (state, action) => {
+      state.selectedLimit = action.payload;
+      state.skip = 0;
+    },
+    setSkip: (state, action) => {
+      state.skip = action.payload;
     },
     clearCurrentRecipe: (state) => {
       state.currentRecipe = null;
@@ -112,7 +118,6 @@ const recipesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // fetchRecipes
       .addCase(fetchRecipes.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -126,7 +131,6 @@ const recipesSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // fetchRecipeById
       .addCase(fetchRecipeById.pending, (state) => {
         state.detailLoading = true;
         state.error = null;
@@ -139,7 +143,6 @@ const recipesSlice = createSlice({
         state.detailLoading = false;
         state.error = action.payload;
       })
-      // searchRecipes
       .addCase(searchRecipes.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -153,11 +156,9 @@ const recipesSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      // fetchTags
       .addCase(fetchTags.fulfilled, (state, action) => {
         state.tags = action.payload;
       })
-      // addNewRecipe
       .addCase(addNewRecipe.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -173,17 +174,17 @@ const recipesSlice = createSlice({
   },
 });
 
-// ─── Exports ────────────────────────────────────────────────────
 
 export const {
   toggleLike,
   setSearchQuery,
   setSelectedTag,
+  setSelectedLimit,
+  setSkip,
   clearCurrentRecipe,
   clearRecipeError,
 } = recipesSlice.actions;
 
-// Selectors
 export const selectRecipes = (state) => state.recipes.recipes;
 export const selectTotal = (state) => state.recipes.total;
 export const selectCurrentRecipe = (state) => state.recipes.currentRecipe;
@@ -191,6 +192,8 @@ export const selectLikedRecipeIds = (state) => state.recipes.likedRecipeIds;
 export const selectTags = (state) => state.recipes.tags;
 export const selectSearchQuery = (state) => state.recipes.searchQuery;
 export const selectSelectedTag = (state) => state.recipes.selectedTag;
+export const selectSelectedLimit = (state) => state.recipes.selectedLimit;
+export const selectSkip = (state) => state.recipes.skip;
 export const selectRecipesLoading = (state) => state.recipes.loading;
 export const selectDetailLoading = (state) => state.recipes.detailLoading;
 export const selectRecipesError = (state) => state.recipes.error;

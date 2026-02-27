@@ -27,8 +27,9 @@ function Profile() {
 
   return (
     <div className="profile-page">
-      {/* Profile Card */}
+      
       <div className="profile-card">
+
         <div className="profile-card-top">
           <Avatar
             sx={{
@@ -57,21 +58,15 @@ function Profile() {
           <h2 className="profile-name">{user.name || user.username}</h2>
           <p className="profile-username">@{user.username}</p>
           <div className="profile-meta">
+            {user.email && <span className="profile-meta-item">✉️ {user.email}</span>}
             {user.age && <span className="profile-meta-item">🎂 {user.age} years old</span>}
             {user.gender && <span className="profile-meta-item">👤 {user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}</span>}
           </div>
         </div>
 
-        <Button
-          variant="outlined"
-          fullWidth
-          onClick={() => navigate('/dashboard')}
-        >
-          ← Back to Dashboard
-        </Button>
+       
       </div>
 
-      {/* Liked Recipes */}
       <div className="profile-liked-section">
         <h3 className="profile-section-title">❤️ Liked Recipes ({likedRecipes.length})</h3>
         {likedRecipes.length > 0 ? (
@@ -82,7 +77,6 @@ function Profile() {
           </div>
         ) : (
           <div className="profile-empty">
-            <span className="profile-empty-icon">💔</span>
             <p>You haven&apos;t liked any recipes yet.</p>
             <Button variant="contained" onClick={() => navigate('/dashboard')}>
               Discover Recipes

@@ -1,3 +1,5 @@
+import { Email } from "@mui/icons-material";
+
 const TOKEN_KEY = 'auth_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 
@@ -37,6 +39,7 @@ function register(userData) {
 
   const user = {
     username: userData.username,
+    email: userData.email || '',
     name: userData.name || '',
     age: userData.age || '',
     gender: userData.gender || ''

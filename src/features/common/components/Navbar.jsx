@@ -29,23 +29,13 @@ function Navbar() {
 
   return (
     <AppBar position="sticky" color="inherit" elevation={0} sx={{ borderBottom: '1px solid #dbdbdb' }}>
-      <Toolbar className="navbar-inner">
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between',height: 64 }}>
         {/* Logo / Brand */}
         <Link to="/dashboard" className="navbar-brand">
-          <span className="navbar-logo">🍳</span>
-          <span className="navbar-title">RecipeGram</span>
+          <span className="navbar-title">RecipeApp</span>
         </Link>
-
-        {/* Navigation Links */}
-        <div className="navbar-links">
-          <IconButton
-            component={Link}
-            to="/dashboard"
-            color={isActive('/dashboard') ? 'primary' : 'default'}
-          >
-            <HomeIcon />
-          </IconButton>
-
+        {/* User Section */}
+        <div className="navbar-user">
           <IconButton component={Link} to={`/profile/${user?.username || ''}`}>
             <Avatar
               sx={{
@@ -53,15 +43,12 @@ function Navbar() {
                 height: 28,
                 fontSize: 14,
                 bgcolor: '#e1306c',
+                fontWeight: 600,
               }}
             >
               {(user?.username || 'U').charAt(0).toUpperCase()}
             </Avatar>
           </IconButton>
-        </div>
-
-        {/* User Section */}
-        <div className="navbar-user">
           <span className="navbar-username">{user?.username || 'User'}</span>
           <IconButton onClick={handleLogout} size="small" title="Logout">
             <LogoutIcon fontSize="small" />

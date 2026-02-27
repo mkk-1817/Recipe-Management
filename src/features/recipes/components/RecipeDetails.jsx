@@ -51,7 +51,7 @@ function RecipeDetails() {
   if (error) {
     return (
       <div className="recipe-detail-error">
-        <p>😞 {error}</p>
+        <p color='error'> {error}</p>
         <Button variant="contained" onClick={() => navigate('/dashboard')}>
           Back to Dashboard
         </Button>
@@ -102,27 +102,27 @@ function RecipeDetails() {
         {/* Stats */}
         <div className="recipe-detail-stats">
           <div className="stat-item">
-            <span className="stat-label">⏱ Prep</span>
+            <span className="stat-label">Prep</span>
             <span className="stat-value">{recipe.prepTimeMinutes} min</span>
           </div>
           <div className="stat-item">
-            <span className="stat-label">🔥 Cook</span>
+            <span className="stat-label">Cook</span>
             <span className="stat-value">{recipe.cookTimeMinutes} min</span>
           </div>
           <div className="stat-item">
-            <span className="stat-label">🍽 Servings</span>
+            <span className="stat-label">Servings</span>
             <span className="stat-value">{recipe.servings}</span>
           </div>
           <div className="stat-item">
-            <span className="stat-label">🔥 Calories</span>
+            <span className="stat-label">Calories</span>
             <span className="stat-value">{recipe.caloriesPerServing}</span>
           </div>
           <div className="stat-item">
-            <span className="stat-label">⭐ Rating</span>
+            <span className="stat-label">Rating</span>
             <span className="stat-value">{recipe.rating} ({recipe.reviewCount})</span>
           </div>
           <div className="stat-item">
-            <span className="stat-label">📊 Difficulty</span>
+            <span className="stat-label">Difficulty</span>
             <span className="stat-value">{recipe.difficulty}</span>
           </div>
         </div>
@@ -134,17 +134,13 @@ function RecipeDetails() {
 
         {/* Ingredients */}
         <div className="recipe-detail-section">
-          <h2 className="section-title">🧾 Ingredients</h2>
-          <ul className="ingredients-list">
-            {recipe.ingredients?.map((ingredient, index) => (
-              <li key={index} className="ingredient-item">{ingredient}</li>
-            ))}
-          </ul>
+          <h2 className="section-title">Ingredients</h2>
+          <p>{recipe.ingredients?.join(', ')}</p>
         </div>
 
         {/* Instructions */}
         <div className="recipe-detail-section">
-          <h2 className="section-title">👩‍🍳 Instructions</h2>
+          <h2 className="section-title">Instructions</h2>
           <ol className="instructions-list">
             {recipe.instructions?.map((step, index) => (
               <li key={index} className="instruction-step">

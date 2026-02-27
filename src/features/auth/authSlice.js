@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as authService from './services/authService';
 
-// Check if user is already logged in
 const token = authService.getToken();
 const initialUser = token ? authService.getCurrentUser() : null;
 
@@ -13,7 +12,6 @@ const initialState = {
   error: null,
 };
 
-// Async thunks
 export const loginUser = createAsyncThunk(
   'auth/login',
   async ({ username, password }, { rejectWithValue }) => {
@@ -99,7 +97,6 @@ const authSlice = createSlice({
 
 export const { clearError, setUser } = authSlice.actions;
 
-// Selectors
 export const selectAuth = (state) => state.auth;
 export const selectUser = (state) => state.auth.user;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;

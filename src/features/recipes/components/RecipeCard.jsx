@@ -54,8 +54,7 @@ function RecipeCard({ recipe }) {
           </div>
 
           <div className="recipe-card-meta">
-            <span>⏱ {recipe.prepTimeMinutes + recipe.cookTimeMinutes} min</span>
-            <span>🍽 {recipe.servings} servings</span>
+            <span>Prep Time: {recipe.prepTimeMinutes + recipe.cookTimeMinutes} min</span>
             {recipe.difficulty && (
               <span className={`difficulty difficulty-${recipe.difficulty.toLowerCase()}`}>
                 {recipe.difficulty}
@@ -64,7 +63,7 @@ function RecipeCard({ recipe }) {
           </div>
 
           <div className="recipe-card-rating">
-            <span>{'⭐'.repeat(Math.round(recipe.rating))}</span>
+            <span className="review-count">{recipe.rating} Rating</span>
             <span className="review-count">({recipe.reviewCount})</span>
           </div>
         </CardContent>

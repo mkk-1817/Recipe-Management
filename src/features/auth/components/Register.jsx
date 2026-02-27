@@ -12,6 +12,7 @@ import '../styles/Register.css';
 function Register() {
   const [formData, setFormData] = useState({
     username: '',
+    email: '',
     password: '',
     confirmPassword: '',
     name: '',
@@ -41,6 +42,7 @@ function Register() {
     const errs = {};
     if (!formData.username.trim()) errs.username = 'Username is required';
     else if (formData.username.trim().length < 3) errs.username = 'Min 3 characters';
+    if (!formData.email.trim()) errs.email = 'Email is required';
     if (!formData.name.trim()) errs.name = 'Name is required';
     if (!formData.age || Number(formData.age) < 1) errs.age = 'Valid age is required';
     if (!formData.gender) errs.gender = 'Please select a gender';
@@ -59,6 +61,7 @@ function Register() {
     const result = await dispatch(
       registerUser({
         username: formData.username.trim(),
+        email: formData.email.trim(),
         password: formData.password,
         name: formData.name.trim(),
         age: formData.age,
@@ -94,6 +97,19 @@ function Register() {
             error={!!fieldErrors.username}
             helperText={fieldErrors.username}
             fullWidth
+            required
+            margin="dense"
+            size="small"
+          />
+          <TextField
+            label="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Your email address"
+            error={!!fieldErrors.email}
+            helperText={fieldErrors.email}
+            fullWidth 
             required
             margin="dense"
             size="small"
